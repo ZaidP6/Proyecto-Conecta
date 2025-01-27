@@ -5,13 +5,11 @@ import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
