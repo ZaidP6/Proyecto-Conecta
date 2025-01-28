@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -20,9 +20,9 @@ public class Contacto {
 
     private String resumen;
     private String canal;
-    private Date fecha;
+    private LocalDate fecha;
 
-    @ManyToOne(fetch = FetchType.LAZY,
+    @ManyToOne( fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     @MapsId("profesorId")
     @JoinColumn(name = "profesor_id")
