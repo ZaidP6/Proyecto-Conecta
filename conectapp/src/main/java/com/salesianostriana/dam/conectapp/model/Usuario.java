@@ -20,5 +20,6 @@ public class Usuario {
     private Rol role;
 
     @OneToOne
+    @JoinColumn(name = "profesor_id", unique = true)
     private Profesor profesor;
 }

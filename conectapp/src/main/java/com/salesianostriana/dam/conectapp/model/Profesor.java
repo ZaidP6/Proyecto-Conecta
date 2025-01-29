@@ -17,7 +17,9 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Profesor extends Persona{
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL,
+            optional = false)
+    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
     private Usuario usuario;
 
     @ToString.Exclude
