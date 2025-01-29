@@ -1,7 +1,7 @@
 package com.salesianostriana.dam.conectapp.service;
 
+import com.salesianostriana.dam.conectapp.dto.CreateProfesorWithUserDto;
 import com.salesianostriana.dam.conectapp.dto.ProfesorDto;
-import com.salesianostriana.dam.conectapp.model.Curso;
 import com.salesianostriana.dam.conectapp.model.Profesor;
 import com.salesianostriana.dam.conectapp.model.Usuario;
 import com.salesianostriana.dam.conectapp.repository.ProfesorRepository;
@@ -10,9 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,21 +21,24 @@ public class ProfesorService {
 
 
     //AÑADIR
-    public ProfesorDto addNew(ProfesorDto profesorDto) {
-        // Buscar el usuario asociado al profesor
-        Usuario usuario = usuarioRepository.findById(profesorDto.id())
-                .orElseThrow(() -> new EntityNotFoundException("Usuario no encontrado"));
+    public Profesor addNew(CreateProfesorWithUserDto dto) {
+        // Buscar si el usuario ya existe
+        Usuario usuario = usuarioRepository.findByUserName(dto.userName())
+                .orElseGet(() -> {
+                    //CORREGIR ESTOOOOOOOOOO
+                    return usuarioRepository.save(newUser);
+                });
 
-        // Crear la entidad Profesor a partir del DTO
-        Profesor p = new Profesor();
-        p.setNombre(profesorDto.nombre());
-        p.setApellidos(profesorDto.apellidos());
-        p.setEmail(profesorDto.email());
-        p.setTelefono(profesorDto.telefono());
-        p.setUsuario(usuario);
+        // Crear Profesor con usuario asignado
+        Profesor p = Profesor.builder()
+                .nombre(dto.nombre())
+                .apellidos(dto.apellidos())
+                .email(dto.email())
+                .telefono(dto.telefono())
+                .usuario(usuario)
+                .build();
 
-        // Guardar en la base de datos y devolver el DTO creado
-        return ProfesorDto.of(profesorRepository.save(p));
+        return profesorRepository.save(p);
     }
 
     //BUSCAR POR ID
@@ -57,14 +58,17 @@ public class ProfesorService {
 
     //EDITAR PROFE BUSCANDO POR ID
     public Profesor editById(Profesor p, Long id){
-        return this.profesorRepository.findById(id).map(
+        return profesorRepository.findById(id).map(
                 pOld -> {
                     pOld.setNombre(p.getNombre());
                     pOld.setApellidos(p.getApellidos());
                     pOld.setEmail(p.getEmail());
                     pOld.setTelefono(p.getTelefono());
-                    pOld.setUsuario(usuarioRepository.findById(p.getUsuario().getId()).orElse(null));
-                    return profesorRepository.save(pOld);
+
+                    if (p.getUsuario() != null && p.getUsuario().getId() != null) {
+                        usuarioRepository.findById(p.getUsuario().getId()).ifPresent(pOld::setUsuario);
+                    }
+                    return  profesorRepository.save(pOld);
 
                 }
         ).orElseThrow(() -> new EntityNotFoundException("Profesor con ID:"+id+" no encontrado"));

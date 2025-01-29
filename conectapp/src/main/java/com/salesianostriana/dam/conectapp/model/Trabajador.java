@@ -3,6 +3,7 @@ package com.salesianostriana.dam.conectapp.model;
 import jakarta.persistence.Entity;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -12,7 +13,7 @@ import java.util.Objects;
 @Setter
 @Getter
 @ToString
-@Builder
+@SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Trabajador extends Persona{
