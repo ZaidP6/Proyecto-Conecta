@@ -19,7 +19,8 @@ public class Usuario {
     private String password;
     private Rol role;
 
-    @OneToOne
+    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
     @JoinColumn(name = "profesor_id", unique = true)
     private Profesor profesor;
 }

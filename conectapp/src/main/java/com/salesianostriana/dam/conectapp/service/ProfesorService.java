@@ -22,23 +22,32 @@ public class ProfesorService {
 
     //AÑADIR
     public Profesor addNew(CreateProfesorWithUserDto dto) {
-        // Buscar si el usuario ya existe
-        Usuario usuario = usuarioRepository.findByUserName(dto.userName())
-                .orElseGet(() -> {
-                    //CORREGIR ESTOOOOOOOOOO
-                    return usuarioRepository.save(newUser);
-                });
+        // Verificar si el nombre de usuario ya existe
+        if (usuarioRepository.existsByUserName(dto.userName())) {
+            throw new IllegalArgumentException("El nombre de usuario ya está en uso.");
+        }
 
-        // Crear Profesor con usuario asignado
-        Profesor p = Profesor.builder()
+        // Crear el nuevo usuario
+        Usuario usuario = Usuario.builder()
+                .userName(dto.userName())
+                .password(dto.password())
+                .role(dto.role())
+                .build();
+
+        // Guardar el usuario en la base de datos (esto asigna un ID)
+        usuario = usuarioRepository.save(usuario);
+
+        // Crear el profesor con el usuario asignado
+        Profesor profesor = Profesor.builder()
                 .nombre(dto.nombre())
                 .apellidos(dto.apellidos())
                 .email(dto.email())
                 .telefono(dto.telefono())
-                .usuario(usuario)
+                .usuario(usuario) // Asociar el usuario ya persistido
                 .build();
 
-        return profesorRepository.save(p);
+        // Guardar el profesor en la base de datos
+        return profesorRepository.save(profesor);
     }
 
     //BUSCAR POR ID

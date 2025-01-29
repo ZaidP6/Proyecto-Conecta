@@ -1,6 +1,8 @@
 package com.salesianostriana.dam.conectapp.controller;
 
+import com.salesianostriana.dam.conectapp.dto.CreateProfesorWithUserDto;
 import com.salesianostriana.dam.conectapp.dto.ProfesorDto;
+import com.salesianostriana.dam.conectapp.model.Profesor;
 import com.salesianostriana.dam.conectapp.service.ProfesorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +20,11 @@ public class ProfesorController {
     private final ProfesorService profesorService;
 
     @PostMapping()
-    public ResponseEntity<ProfesorDto> crearProfesor(@RequestBody ProfesorDto nuevoProfe){
+    public ResponseEntity<ProfesorDto> crearProfesor(@RequestBody CreateProfesorWithUserDto nuevoProfe){
+        Profesor profesor = profesorService.addNew(nuevoProfe);
+        ProfesorDto profesorDto = ProfesorDto.of(profesor);
+
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(profesorService.addNew(nuevoProfe));
+                .body(profesorDto);
     }
 }
