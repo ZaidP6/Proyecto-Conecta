@@ -20,7 +20,7 @@ public class ProfesorController {
     private final ProfesorService profesorService;
 
     @PostMapping()
-    public ResponseEntity<ProfesorDto> crearProfesor(@RequestBody CreateProfesorWithUserDto nuevoProfe){
+    public ResponseEntity<ProfesorDto> crearProfesor(@RequestBody Profesor nuevoProfe){
         Profesor profesor = profesorService.addNew(nuevoProfe);
         ProfesorDto profesorDto = ProfesorDto.of(profesor);
 

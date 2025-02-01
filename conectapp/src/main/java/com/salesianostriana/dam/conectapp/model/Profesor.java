@@ -11,18 +11,19 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Profesor extends Persona{
 
-    @OneToOne(cascade = CascadeType.ALL,
-            optional = false)
-    @JoinColumn(name = "usuario_id", nullable = false, unique = true)
+    @OneToOne(mappedBy = "profesor", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    @JoinColumn(name = "porfesor_id", nullable = false, unique = true)
     private Usuario usuario;
 
     @ToString.Exclude
+    @Builder.Default
     @OneToMany(mappedBy = "profesor",
             cascade = CascadeType.ALL,
             orphanRemoval = true,

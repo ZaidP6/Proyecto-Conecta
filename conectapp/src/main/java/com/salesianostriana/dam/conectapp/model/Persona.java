@@ -16,9 +16,15 @@ public abstract class Persona {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull @Column
     private String nombre;
+
+    @NonNull @Column
     private String apellidos;
+
+    @NonNull @Column
     private String email;
+    @NonNull @Column
     private String telefono;
 
 }

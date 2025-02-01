@@ -3,30 +3,27 @@ package com.salesianostriana.dam.conectapp.dto;
 import com.salesianostriana.dam.conectapp.model.Profesor;
 import com.salesianostriana.dam.conectapp.model.Rol;
 import com.salesianostriana.dam.conectapp.model.Usuario;
+import lombok.NonNull;
 
 public record CreateProfesorWithUserDto(
-        String nombre,
-        String apellidos,
-        String email,
-        String telefono,
+
+        @NonNull
+        Profesor profesor,
+        @NonNull
         String userName,
+        @NonNull
         String password,
+        @NonNull
         Rol role
 ) {
 
-    public Profesor toProfesorCreated(CreateProfesorWithUserDto createProfesorWithUserDto) {
+    public Usuario toUsuarioCreated() {
 
-        Usuario usuario = Usuario.builder()
-                .userName(createProfesorWithUserDto.userName())
-                .password(createProfesorWithUserDto.password())
-                .role(createProfesorWithUserDto.role())
-                .build();
-        return Profesor.builder()
-                .nombre(createProfesorWithUserDto.nombre())
-                .apellidos(createProfesorWithUserDto.apellidos())
-                .email(createProfesorWithUserDto.email())
-                .telefono(createProfesorWithUserDto.telefono())
-                .usuario(usuario)
+        return Usuario.builder()
+                .userName(userName)
+                .password(password)
+                .role(Rol.valueOf("USER"))
+                .profesor(profesor)
                 .build();
     }
 }
