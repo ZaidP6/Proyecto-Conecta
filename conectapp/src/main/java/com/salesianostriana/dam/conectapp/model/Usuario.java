@@ -29,8 +29,7 @@ public class Usuario {
     @NonNull @Column
     private Rol role;
 
-    @OneToOne( cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+    @OneToOne( cascade = CascadeType.ALL)
     @JoinColumn(name = "profesor_id", unique = true)
     private Profesor profesor;
 

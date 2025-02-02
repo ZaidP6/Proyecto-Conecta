@@ -10,10 +10,10 @@ public record CreateUsuarioDto(
 ) {
     public Usuario toUsuarioCreated(){
         return Usuario.builder()
-                .profesor(this.profesor)
                 .userName(this.userName())
                 .password(this.password())
                 .role(Rol.USER)
+                .profesor(this.profesor)
                 .build();
     }
 }

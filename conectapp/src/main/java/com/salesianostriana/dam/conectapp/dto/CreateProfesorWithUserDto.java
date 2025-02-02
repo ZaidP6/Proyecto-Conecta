@@ -22,7 +22,7 @@ public record CreateProfesorWithUserDto(
         return Usuario.builder()
                 .userName(userName)
                 .password(password)
-                .role(Rol.valueOf("USER"))
+                .role(role)
                 .profesor(profesor)
                 .build();
     }

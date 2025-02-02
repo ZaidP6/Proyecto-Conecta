@@ -9,22 +9,24 @@ import lombok.experimental.SuperBuilder;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@MappedSuperclass
+@Entity
 @SuperBuilder
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Persona {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull @Column
+    @Column
     private String nombre;
 
-    @NonNull @Column
+    @Column
     private String apellidos;
 
-    @NonNull @Column
+    @Column(unique = true)
     private String email;
-    @NonNull @Column
+
+    @Column(unique = true)
     private String telefono;
 
 }

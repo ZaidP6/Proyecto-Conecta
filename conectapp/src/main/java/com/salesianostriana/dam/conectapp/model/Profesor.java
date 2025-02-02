@@ -5,8 +5,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Getter
@@ -17,9 +16,9 @@ import java.util.Objects;
 @NoArgsConstructor
 public class Profesor extends Persona{
 
+    //@JoinColumn(name = "porfesor_id", nullable = false, unique = true)
     @OneToOne(mappedBy = "profesor", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    @JoinColumn(name = "porfesor_id", nullable = false, unique = true)
     private Usuario usuario;
 
     @ToString.Exclude
@@ -28,8 +27,18 @@ public class Profesor extends Persona{
             cascade = CascadeType.ALL,
             orphanRemoval = true,
             fetch = FetchType.LAZY)
-    private List<Contacto> contactos;
+    private List<Contacto> contactos = new ArrayList<>();
 
+
+    /*
+    @Builder.Default
+    @JoinTable(
+            joinColumns = @JoinColumn(name = "profesor_id"),
+            inverseJoinColumns = @JoinColumn(name = "curso_id")
+    )
+    @ManyToMany
+    private Set<Curso> cursos = new HashSet<>();
+     */
 
     @Override
     public final boolean equals(Object o) {
