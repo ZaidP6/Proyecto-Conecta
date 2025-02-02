@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.conectapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -29,7 +30,8 @@ public class Usuario {
     @NonNull
     private Rol role;
 
-    @OneToOne( cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToOne( cascade = CascadeType.PERSIST)
     @JoinColumn(name = "profesor_id", unique = true)
     private Profesor profesor;
 

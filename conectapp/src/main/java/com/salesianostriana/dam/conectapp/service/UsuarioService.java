@@ -6,6 +6,7 @@ import com.salesianostriana.dam.conectapp.model.Rol;
 import com.salesianostriana.dam.conectapp.model.Usuario;
 import com.salesianostriana.dam.conectapp.repository.ProfesorRepository;
 import com.salesianostriana.dam.conectapp.repository.UsuarioRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class UsuarioService {
     }
      */
 
+    @Transactional
     public Usuario addNew(CreateUsuarioDto createUsuarioDto) {
         Profesor profesor = profesorRepository.findByEmail(createUsuarioDto.emailProfesor())
                 .orElseGet(() -> {
@@ -54,6 +56,16 @@ public class UsuarioService {
                             .build();
                     return profesorRepository.save(nuevoProfesor);
                 });
+
+
+        if (profesor != null && profesor.getUsuario() != null) {
+            throw new IllegalStateException("Este profesor ya tiene un usuario asignado.");
+        }
+
+        // Verificar si el nombre de usuario ya está en la base de datos
+        if (usuarioRepository.existsByUserName(createUsuarioDto.userName())) {
+            throw new IllegalStateException("El nombre de usuario ya está en uso.");
+        }
 
         if (profesor.getUsuario() != null) {
             throw new IllegalStateException("Este profesor ya tiene un usuario asignado.");
