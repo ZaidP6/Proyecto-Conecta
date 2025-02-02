@@ -18,28 +18,63 @@ public class UsuarioService {
 
 
     //AÑADIR
+    /*
     public Usuario addNew(CreateUsuarioDto createUsuarioDto) {
-        Profesor profesor = profesorRepository.findById(createUsuarioDto.profesor().getId())
-                .orElseGet(() -> {
-                    Profesor nuevoProfesor = new Profesor();
-                    nuevoProfesor.setNombre(createUsuarioDto.profesor().getNombre());
-                    nuevoProfesor.setApellidos(createUsuarioDto.profesor().getApellidos());
-                    nuevoProfesor.setEmail(createUsuarioDto.profesor().getEmail());
-                    nuevoProfesor.setTelefono(createUsuarioDto.profesor().getTelefono());
-                    nuevoProfesor.setUsuario(null);
-                    return profesorRepository.save(nuevoProfesor);
-                });
+        Profesor profesor = Profesor.builder()
+                .nombre(createUsuarioDto.nombreProfesor())
+                .apellidos(createUsuarioDto.apellidosProfesor())
+                .email(createUsuarioDto.emailProfesor())
+                .telefono(createUsuarioDto.telefonoProfesor())
+                .build();
 
-        // Crear el Usuario con los datos del DTO y el Profesor asociado
+        profesor = profesorRepository.save(profesor);
+
         Usuario usuario = Usuario.builder()
                 .userName(createUsuarioDto.userName())
                 .password(createUsuarioDto.password())
-                .role(Rol.USER)  // Usamos un rol por defecto (o lo puedes personalizar)
+                .role(Rol.USER)
                 .profesor(profesor)
                 .build();
 
-        // Guardamos el Usuario en la base de datos
-        return usuarioRepository.save(usuario);
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
+        System.out.println("Usuario guardado: " + usuarioGuardado);
+        return usuarioGuardado;
+
+    }
+     */
+
+    public Usuario addNew(CreateUsuarioDto createUsuarioDto) {
+        Profesor profesor = profesorRepository.findByEmail(createUsuarioDto.emailProfesor())
+                .orElseGet(() -> {
+                    Profesor nuevoProfesor = Profesor.builder()
+                            .nombre(createUsuarioDto.nombreProfesor())
+                            .apellidos(createUsuarioDto.apellidosProfesor())
+                            .email(createUsuarioDto.emailProfesor())
+                            .telefono(createUsuarioDto.telefonoProfesor())
+                            .build();
+                    return profesorRepository.save(nuevoProfesor);
+                });
+
+        if (profesor.getUsuario() != null) {
+            throw new IllegalStateException("Este profesor ya tiene un usuario asignado.");
+        }
+
+        Usuario usuario = Usuario.builder()
+                .userName(createUsuarioDto.userName())
+                .password(createUsuarioDto.password())
+                .role(Rol.USER)
+                .build();
+
+        profesor.setUsuario(usuario);
+        usuario.setProfesor(profesor);
+
+        System.out.println("Antes de guardar usuario: " + usuario);
+
+        usuario = usuarioRepository.save(usuario);
+
+        System.out.println("Después de guardar usuario: " + usuario);
+
+        return usuario;
     }
 
 }

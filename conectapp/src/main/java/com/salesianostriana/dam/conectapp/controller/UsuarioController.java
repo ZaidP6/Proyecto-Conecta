@@ -20,8 +20,8 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
 
     @PostMapping()
-    public ResponseEntity<Usuario> crear(@Valid @RequestBody CreateUsuarioDto nuevoUser){
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(usuarioService.addNew(nuevoUser.toUsuarioCreated()));
+    public ResponseEntity<Usuario> crear(@RequestBody CreateUsuarioDto nuevoUser){
+        Usuario usuario = usuarioService.addNew(nuevoUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuario);
     }
 }

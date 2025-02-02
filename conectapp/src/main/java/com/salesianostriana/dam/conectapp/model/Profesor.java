@@ -17,7 +17,7 @@ import java.util.*;
 public class Profesor extends Persona{
 
     //@JoinColumn(name = "porfesor_id", nullable = false, unique = true)
-    @OneToOne(mappedBy = "profesor", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "profesor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ToString.Exclude
     private Usuario usuario;
 

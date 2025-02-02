@@ -16,17 +16,17 @@ import java.util.Objects;
 @Table(name = "usuario")
 public class Usuario {
 
-    @Column
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull @Column
+    @NonNull
     private String userName;
 
-    @NonNull @Column
+    @NonNull
     private String password;
 
-    @NonNull @Column
+    @NonNull
     private Rol role;
 
     @OneToOne( cascade = CascadeType.ALL)

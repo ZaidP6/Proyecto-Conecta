@@ -6,8 +6,10 @@ import com.salesianostriana.dam.conectapp.model.Usuario;
 
 public record CreateUsuarioDto(
         String userName, String password,
-        Profesor profesor
+        String nombreProfesor, String apellidosProfesor,
+        String emailProfesor, String telefonoProfesor
 ) {
+    /*
     public Usuario toUsuarioCreated(){
         return Usuario.builder()
                 .userName(this.userName())
@@ -16,4 +18,5 @@ public record CreateUsuarioDto(
                 .profesor(this.profesor)
                 .build();
     }
+     */
 }
