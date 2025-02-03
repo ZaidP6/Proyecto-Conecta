@@ -6,9 +6,12 @@ import com.salesianostriana.dam.conectapp.model.Rol;
 import com.salesianostriana.dam.conectapp.model.Usuario;
 import com.salesianostriana.dam.conectapp.repository.ProfesorRepository;
 import com.salesianostriana.dam.conectapp.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -82,6 +85,18 @@ public class UsuarioService {
         System.out.println("Después de guardar usuario: " + usuario);
 
         return usuario;
+    }
+
+    public List<Usuario> findAll() {
+        List<Usuario> result = usuarioRepository.findAll();
+        if (result.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+        return result;
+    }
+
+    public Usuario findById(Long id) {
+        return usuarioRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
     }
 
 }

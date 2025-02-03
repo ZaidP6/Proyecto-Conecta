@@ -44,3 +44,5 @@ Los diferentes endpoints necesarios para dar funcionalidad a las distintas panta
       JOIN PROFESOR pr ON p.ID = pr.ID
       JOIN USUARIO u ON pr.ID = u.PROFESOR_ID;
     ```
+    ![{2807D09C-64E8-4C16-B127-61DD796D47B2}](https://github.com/user-attachments/assets/b3eee820-2f89-49f3-80c1-3603feb54c6a)
+
