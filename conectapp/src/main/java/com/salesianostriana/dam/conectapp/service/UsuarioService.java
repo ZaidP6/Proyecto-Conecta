@@ -90,7 +90,7 @@ public class UsuarioService {
     public List<Usuario> findAll() {
         List<Usuario> result = usuarioRepository.findAll();
         if (result.isEmpty()) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Lista vacía");
         }
         return result;
     }
