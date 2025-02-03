@@ -58,17 +58,12 @@ public class UsuarioService {
                 });
 
 
-        if (profesor != null && profesor.getUsuario() != null) {
-            throw new IllegalStateException("Este profesor ya tiene un usuario asignado.");
-        }
-
-        // Verificar si el nombre de usuario ya está en la base de datos
-        if (usuarioRepository.existsByUserName(createUsuarioDto.userName())) {
-            throw new IllegalStateException("El nombre de usuario ya está en uso.");
-        }
-
         if (profesor.getUsuario() != null) {
             throw new IllegalStateException("Este profesor ya tiene un usuario asignado.");
+        }
+
+        if (usuarioRepository.existsByUserName(createUsuarioDto.userName())) {
+            throw new IllegalStateException("El nombre de usuario ya está en uso.");
         }
 
         Usuario usuario = Usuario.builder()
