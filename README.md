@@ -35,4 +35,12 @@ Los diferentes endpoints necesarios para dar funcionalidad a las distintas panta
 - Además, en los métodos de los controladores solamente se podrán realizar operaciones de transformación de entidades a DTO, nunca a la inversa. Por tanto, los métodos de los servicios pueden recibir un DTO como argumento, pero nunca tendrán un DTO como tipo de retorno.
 - La base de datos que se usará será Postgresql y es conveniente tener dos perfiles de trabajo: dev para desarrollo y prod para producción.
 
+## Consultas
 
+- Para la comprobación de todos las personas que son profesores que a su vez deben ser usuarios:
+    ```
+      SELECT * 
+      FROM PERSONA p
+      JOIN PROFESOR pr ON p.ID = pr.ID
+      JOIN USUARIO u ON pr.ID = u.PROFESOR_ID;
+    ```
