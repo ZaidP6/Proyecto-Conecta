@@ -81,6 +81,7 @@ public class UsuarioService {
         System.out.println("Antes de guardar usuario: " + usuario);
 
         usuario = usuarioRepository.save(usuario);
+        profesor = profesorRepository.save(profesor);
 
         System.out.println("Después de guardar usuario: " + usuario);
 
@@ -90,7 +91,7 @@ public class UsuarioService {
     public List<Usuario> findAll() {
         List<Usuario> result = usuarioRepository.findAll();
         if (result.isEmpty()) {
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("Lista vacía");
         }
         return result;
     }
