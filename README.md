@@ -38,9 +38,9 @@ Los diferentes endpoints necesarios para dar funcionalidad a las distintas panta
 ## Consultas
 
 - Para la comprobación de todos las personas que son profesores que a su vez deben ser usuarios:
-    """
+    ```
       SELECT * 
       FROM PERSONA p
       JOIN PROFESOR pr ON p.ID = pr.ID
       JOIN USUARIO u ON pr.ID = u.PROFESOR_ID;
-    """
+    ```
