@@ -81,6 +81,7 @@ public class UsuarioService {
         System.out.println("Antes de guardar usuario: " + usuario);
 
         usuario = usuarioRepository.save(usuario);
+        profesor = profesorRepository.save(profesor);
 
         System.out.println("Después de guardar usuario: " + usuario);
 

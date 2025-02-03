@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.conectapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -23,6 +24,7 @@ public class Profesor extends Persona{
 
     @ToString.Exclude
     @Builder.Default
+    @JsonIgnore
     @OneToMany(mappedBy = "profesor",
             cascade = CascadeType.ALL,
             orphanRemoval = true,
