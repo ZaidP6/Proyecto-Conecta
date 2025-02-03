@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,12 +36,10 @@ public class EmpresaController {
                             array = @ArraySchema(schema = @Schema(implementation = Empresa.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
                                                 {"id": 1, "cif": "A12345678",
                                                 "direccion": "Calle Condes de Bustillo 8",
                                                 "coordenadas": "0.1234 5.6789",
                                                 "nombre": "Empresa 1"}
-                                            ]
                                            """
                             )}
                     )})
@@ -80,9 +79,37 @@ public class EmpresaController {
     public ResponseEntity<List<Empresa>> findAll(){
         List<Empresa> lista = empresaService.findAll();
         if(lista.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(lista);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(lista);
+        }
+    }
+
+    @Operation(summary = "Buscar una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la empresa",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Empresa.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {"id": 1, "cif": "A12345678",
+                                                "direccion": "Calle Condes de Bustillo 8",
+                                                "coordenadas": "0.1234 5.6789",
+                                                "nombre": "Empresa 1"}
+                                           """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "NO se ha encontrado la empresas")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Empresa> findById(@PathVariable Long id){
+        Optional<Empresa> optEmpresa = empresaService.findById(id);
+        if(optEmpresa.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(optEmpresa.get());
         }
     }
 
