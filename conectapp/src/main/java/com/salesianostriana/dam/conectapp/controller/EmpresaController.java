@@ -102,7 +102,7 @@ public class EmpresaController {
                             )}
                     )}),
             @ApiResponse(responseCode = "404",
-                    description = "NO se han encontrado empresas")
+                    description = "NO se ha encontrado la empresa")
     })
     @GetMapping("/{id}")
     public ResponseEntity<Empresa> findById(@PathVariable Long id){
@@ -112,6 +112,33 @@ public class EmpresaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
 
+    }
+
+    @Operation(summary = "Editar una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la empresa y se ha editado con exito",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Empresa.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {"id": 1, "cif": "A12345678",
+                                                "direccion": "Calle Condes de Bustillo 8",
+                                                "coordenadas": "0.1234 5.6789",
+                                                "nombre": "Empresa 1"}
+                                           """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "NO se ha encontrado la empresa")
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<Empresa> edit(@PathVariable Long id, @RequestBody CreateEmpresaDto nuevosDatos){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.edit(id, nuevosDatos));
+        } catch (EntityNotFoundException err) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
 }
