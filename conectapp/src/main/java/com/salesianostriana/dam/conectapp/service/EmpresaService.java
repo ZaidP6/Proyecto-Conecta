@@ -17,7 +17,8 @@ public class EmpresaService {
     private final EmpresaRepository empresaRepository;
 
     public Empresa save(CreateEmpresaDto createEmpresaDto){
-        return empresaRepository.save(createEmpresaDto.toEmpresa());
+        empresaRepository.save(createEmpresaDto.toEmpresa());
+        return createEmpresaDto.toEmpresa();
     }
 
     public List<Empresa> findAll(){
@@ -26,6 +27,18 @@ public class EmpresaService {
 
     public Empresa findById(Long id){
         return empresaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
+    }
+
+    public Empresa edit(Long id, CreateEmpresaDto nuevosDatos){
+        Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
+        empresa.setCif(nuevosDatos.cif());
+        empresa.setDireccion(nuevosDatos.direccion());
+        empresa.setNombre(nuevosDatos.nombre());
+        empresa.setCoordenadas(nuevosDatos.coordenadas());
+
+        empresaRepository.save(empresa);
+
+        return empresa;
     }
 
 }
