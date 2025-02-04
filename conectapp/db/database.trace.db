@@ -73,3 +73,7 @@ JOIN USUARIO u ON u.profesor_id = pr.ID [42122-232]
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "SELECT * [*]FROMN USUARIO"
 Syntax error in SQL statement "SELECT * [*]FROMN USUARIO"; SQL statement:
 SELECT * FROMN USUARIO [42000-232]
+2025-02-04 14:17:39.889216+01:00 jdbc[29]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabla "CURSOS" no encontrada
+Table "CURSOS" not found; SQL statement:
+SELECT * FROM CURSOS [42102-232]

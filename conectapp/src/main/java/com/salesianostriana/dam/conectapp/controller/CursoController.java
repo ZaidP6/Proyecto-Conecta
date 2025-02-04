@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.conectapp.controller;
 
 import com.salesianostriana.dam.conectapp.dto.CursoDto;
+import com.salesianostriana.dam.conectapp.dto.CursoGetListaDto;
 import com.salesianostriana.dam.conectapp.model.Curso;
 import com.salesianostriana.dam.conectapp.service.CursoService;
 import com.salesianostriana.dam.conectapp.service.ProfesorService;
@@ -13,10 +14,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/curso/")
@@ -50,5 +50,22 @@ public class CursoController {
     )@RequestBody CursoDto nuevoCurso) {
         Curso curso = cursoService.addCurso(nuevoCurso);
         return ResponseEntity.status(HttpStatus.CREATED).body(curso);
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "Obtener todos los cursos", description = "Devuelve una lista con todos los cursos registrados en la base de datos")
+    @ApiResponse(responseCode = "200", description = "Lista de cursos obtenida correctamente")
+    @ApiResponse(responseCode = "404", description = "No se encontraron cursos en la base de datos")
+    public List<CursoGetListaDto> getAllCursos() {
+        return cursoService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Obtener curso por ID", description = "Buscar un curso por su ID en la base de datos")
+    @ApiResponse(responseCode = "200", description = "Curso encontrado")
+    @ApiResponse(responseCode = "404", description = "Curso no encontrado")
+    public CursoDto getCursoById(@PathVariable Long id) {
+        Curso curso = cursoService.findById(id);
+        return CursoDto.of(curso);
     }
 }
