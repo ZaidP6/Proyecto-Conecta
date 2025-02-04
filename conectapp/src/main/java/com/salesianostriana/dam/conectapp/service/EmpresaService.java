@@ -3,6 +3,7 @@ package com.salesianostriana.dam.conectapp.service;
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.repository.EmpresaRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,8 @@ public class EmpresaService {
         return empresaRepository.findAll();
     }
 
-    public Optional<Empresa> findById(Long id){
-        return empresaRepository.findById(id);
+    public Empresa findById(Long id){
+        return empresaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
     }
 
 }

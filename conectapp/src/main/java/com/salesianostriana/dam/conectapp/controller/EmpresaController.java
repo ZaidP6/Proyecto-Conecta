@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/empresa")
-@Tag(name = "Categoria", description = "El controlador de categorías, como no podía ser de otra manera")
+@Tag(name = "Empresa", description = "Controlador de empresas")
 public class EmpresaController {
 
     private final EmpresaService empresaService;
@@ -101,16 +102,16 @@ public class EmpresaController {
                             )}
                     )}),
             @ApiResponse(responseCode = "404",
-                    description = "NO se ha encontrado la empresas")
+                    description = "NO se han encontrado empresas")
     })
     @GetMapping("/{id}")
     public ResponseEntity<Empresa> findById(@PathVariable Long id){
-        Optional<Empresa> optEmpresa = empresaService.findById(id);
-        if(optEmpresa.isEmpty()){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findById(id));
+        } catch (EntityNotFoundException err){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(optEmpresa.get());
         }
+
     }
 
 }
