@@ -12,17 +12,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/empresa")
-@Tag(name = "Categoria", description = "El controlador de categorías, como no podía ser de otra manera")
+@Tag(name = "Empresa", description = "Controlador de empresas")
 public class EmpresaController {
 
     private final EmpresaService empresaService;
@@ -35,12 +37,10 @@ public class EmpresaController {
                             array = @ArraySchema(schema = @Schema(implementation = Empresa.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                            [
                                                 {"id": 1, "cif": "A12345678",
                                                 "direccion": "Calle Condes de Bustillo 8",
                                                 "coordenadas": "0.1234 5.6789",
                                                 "nombre": "Empresa 1"}
-                                            ]
                                            """
                             )}
                     )})
@@ -80,10 +80,38 @@ public class EmpresaController {
     public ResponseEntity<List<Empresa>> findAll(){
         List<Empresa> lista = empresaService.findAll();
         if(lista.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(lista);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(lista);
         }
+    }
+
+    @Operation(summary = "Buscar una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la empresa",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Empresa.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                {"id": 1, "cif": "A12345678",
+                                                "direccion": "Calle Condes de Bustillo 8",
+                                                "coordenadas": "0.1234 5.6789",
+                                                "nombre": "Empresa 1"}
+                                           """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "NO se han encontrado empresas")
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<Empresa> findById(@PathVariable Long id){
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findById(id));
+        } catch (EntityNotFoundException err){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
     }
 
 }
