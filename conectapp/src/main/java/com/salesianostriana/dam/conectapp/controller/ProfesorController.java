@@ -24,7 +24,6 @@ import java.util.List;
 public class ProfesorController {
 
     private final ProfesorService profesorService;
-    private final UsuarioService usuarioService;
 
     @GetMapping("/")
     @Operation(summary = "Obtener todos los profesores", description = "Devuelve una lista con todos los profesores registrados en la base de datos")

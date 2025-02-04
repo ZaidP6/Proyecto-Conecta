@@ -22,25 +22,25 @@ public class Profesor extends Persona{
     @ToString.Exclude
     private Usuario usuario;
 
-    @ToString.Exclude
+//    @ToString.Exclude
+//    @Builder.Default
+//    @JsonIgnore
+//    @OneToMany(mappedBy = "profesor",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true,
+//            fetch = FetchType.LAZY)
+//    private List<Contacto> contactos = new ArrayList<>();
+
+
+
     @Builder.Default
     @JsonIgnore
-    @OneToMany(mappedBy = "profesor",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private List<Contacto> contactos = new ArrayList<>();
-
-
-    /*
-    @Builder.Default
     @JoinTable(
             joinColumns = @JoinColumn(name = "profesor_id"),
             inverseJoinColumns = @JoinColumn(name = "curso_id")
     )
     @ManyToMany
     private Set<Curso> cursos = new HashSet<>();
-     */
 
     @Override
     public final boolean equals(Object o) {
