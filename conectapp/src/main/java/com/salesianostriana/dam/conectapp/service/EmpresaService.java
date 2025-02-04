@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.conectapp.service;
 
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
+import com.salesianostriana.dam.conectapp.error.EmpresaNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.repository.EmpresaRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -22,15 +23,19 @@ public class EmpresaService {
     }
 
     public List<Empresa> findAll(){
-        return empresaRepository.findAll();
+        List<Empresa> lista = empresaRepository.findAll();
+        if(lista.isEmpty()){
+            throw new EmpresaNotFoundException("No se han encontrado empresas");
+        }
+        return lista;
     }
 
     public Empresa findById(Long id){
-        return empresaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
+        return empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
     }
 
     public Empresa edit(Long id, CreateEmpresaDto nuevosDatos){
-        Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
+        Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
         empresa.setCif(nuevosDatos.cif());
         empresa.setDireccion(nuevosDatos.direccion());
         empresa.setNombre(nuevosDatos.nombre());
@@ -42,7 +47,7 @@ public class EmpresaService {
     }
 
     public void delete(Long id){
-        empresaRepository.delete(findById(id));
+        empresaRepository.deleteById(id);
     }
 
 }

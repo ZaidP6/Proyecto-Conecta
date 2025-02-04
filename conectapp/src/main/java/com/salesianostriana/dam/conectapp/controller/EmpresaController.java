@@ -77,13 +77,8 @@ public class EmpresaController {
                     description = "NO se han encontrado empresas")
     })
     @GetMapping
-    public ResponseEntity<List<Empresa>> findAll(){
-        List<Empresa> lista = empresaService.findAll();
-        if(lista.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        } else {
-            return ResponseEntity.status(HttpStatus.OK).body(lista);
-        }
+    public List<Empresa> findAll(){
+        return empresaService.findAll();
     }
 
     @Operation(summary = "Buscar una empresa")
@@ -105,12 +100,8 @@ public class EmpresaController {
                     description = "NO se ha encontrado la empresa")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<Empresa> findById(@PathVariable Long id){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.findById(id));
-        } catch (EntityNotFoundException err){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public Empresa findById(@PathVariable Long id){
+        return empresaService.findById(id);
 
     }
 
@@ -133,12 +124,8 @@ public class EmpresaController {
                     description = "NO se ha encontrado la empresa")
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Empresa> edit(@PathVariable Long id, @RequestBody CreateEmpresaDto nuevosDatos){
-        try {
-            return ResponseEntity.status(HttpStatus.OK).body(empresaService.edit(id, nuevosDatos));
-        } catch (EntityNotFoundException err) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    public Empresa edit(@PathVariable Long id, @RequestBody CreateEmpresaDto nuevosDatos){
+        return empresaService.edit(id, nuevosDatos);
     }
 
     @Operation(summary = "Elimina una empresa")
@@ -148,13 +135,8 @@ public class EmpresaController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable Long id){
-        try {
-            empresaService.delete(id);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (EntityNotFoundException err){
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-
+        empresaService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
 }
