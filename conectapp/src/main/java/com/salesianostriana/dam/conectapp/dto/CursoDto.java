@@ -12,4 +12,10 @@ public record CursoDto(
                 .horasEmpresa(horasEmpresa)
                 .build();
     }
+
+    public static CursoDto of(Curso curso){
+
+        return new CursoDto(curso.getNombre(),
+                curso.getHorasEmpresa());
+    }
 }

@@ -4,8 +4,11 @@ import com.salesianostriana.dam.conectapp.dto.CursoDto;
 import com.salesianostriana.dam.conectapp.model.Curso;
 import com.salesianostriana.dam.conectapp.model.Profesor;
 import com.salesianostriana.dam.conectapp.repository.CursoRespository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,21 @@ public class CursoService {
         System.out.println("Curso guardado: " + cursoGuardado);
 
         return cursoGuardado;
+    }
+
+    //BUSCAR POR ID
+    public Curso findById(Long id){
+        return this.cursoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Curso con ID: "+id+ " no encontrado."));
+    }
+
+    //BUSCAR TODOS LOS CURSOS
+    public List<Curso> findAll(){
+        List<Curso> listaCursos = cursoRepository.findAll();
+        if (listaCursos.isEmpty()) {
+            throw new EntityNotFoundException("Lista vacía");
+        }
+        return listaCursos;
+
     }
 
 }
