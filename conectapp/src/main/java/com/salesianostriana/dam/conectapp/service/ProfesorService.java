@@ -1,9 +1,6 @@
 package com.salesianostriana.dam.conectapp.service;
 
-import com.salesianostriana.dam.conectapp.dto.CreateProfesorWithUserDto;
-import com.salesianostriana.dam.conectapp.dto.ProfesorDto;
 import com.salesianostriana.dam.conectapp.model.Profesor;
-import com.salesianostriana.dam.conectapp.model.Usuario;
 import com.salesianostriana.dam.conectapp.repository.ProfesorRepository;
 import com.salesianostriana.dam.conectapp.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,36 +16,18 @@ public class ProfesorService {
     private final ProfesorRepository profesorRepository;
     private final UsuarioRepository usuarioRepository;
 
-
-    //AÑADIR
-    public Profesor addNew(Profesor profesor) {
-        // Verificar si el nombre de usuario ya existe
-        /*
-        if (usuarioRepository.existsByUserName(dto.userName())) {
-            throw new IllegalArgumentException("El nombre de usuario ya está en uso.");
-        }
-         */
-        return profesorRepository.save(Profesor.builder()
-                .nombre(profesor.getNombre())
-                .apellidos(profesor.getApellidos())
-                .email(profesor.getEmail())
-                .telefono(profesor.getTelefono())
-                        .build());
-
-    }
-
     //BUSCAR POR ID
     public Profesor findById(Long id){
         return this.profesorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Profesor con ID: "+id+ " no encontrado."));
     }
 
     //BUSCAR TODOS LOS PROFESORES
-    public List<ProfesorDto> findAll(){
+    public List<Profesor> findAll(){
         List<Profesor> listaProfes = profesorRepository.findAll();
         if (listaProfes.isEmpty()){
             throw new EntityNotFoundException("Lista vacía");
         }
-        return listaProfes.stream().map(ProfesorDto::of).toList();  //buscar mas info para entender bien
+        return listaProfes;
 
     }
 

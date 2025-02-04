@@ -1,5 +1,6 @@
 package com.salesianostriana.dam.conectapp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
@@ -22,13 +23,14 @@ public class Contacto {
     private String canal;
     private LocalDate fecha;
 
-    @ManyToOne( fetch = FetchType.LAZY,
+    @ManyToOne( fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     @MapsId("profesorId")
+    @JsonIgnore
     @JoinColumn(name = "profesor_id")
     private Profesor profesor;
 
-    @ManyToOne(fetch = FetchType.LAZY,
+    @ManyToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     @MapsId("trabajadorId")
     @JoinColumn(name = "trabajador_id")
