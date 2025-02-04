@@ -80,7 +80,7 @@ public class EmpresaController {
     public ResponseEntity<List<Empresa>> findAll(){
         List<Empresa> lista = empresaService.findAll();
         if(lista.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(lista);
         }
@@ -109,7 +109,7 @@ public class EmpresaController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(empresaService.findById(id));
         } catch (EntityNotFoundException err){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
     }
@@ -137,8 +137,24 @@ public class EmpresaController {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(empresaService.edit(id, nuevosDatos));
         } catch (EntityNotFoundException err) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
+    }
+
+    @Operation(summary = "Elimina una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204",
+                    description = "Se ha eliminado con exito una empresa o no existía desde un principio")
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        try {
+            empresaService.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } catch (EntityNotFoundException err){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+
     }
 
 }

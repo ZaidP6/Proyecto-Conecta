@@ -41,4 +41,8 @@ public class EmpresaService {
         return empresa;
     }
 
+    public void delete(Long id){
+        empresaRepository.delete(findById(id));
+    }
+
 }
