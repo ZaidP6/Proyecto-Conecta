@@ -1,9 +1,8 @@
 package com.salesianostriana.dam.conectapp.controller;
 
 import com.salesianostriana.dam.conectapp.dto.CursoDto;
-import com.salesianostriana.dam.conectapp.dto.CursoResponseDto;
+import com.salesianostriana.dam.conectapp.dto.CursoGetListaDto;
 import com.salesianostriana.dam.conectapp.model.Curso;
-import com.salesianostriana.dam.conectapp.model.Profesor;
 import com.salesianostriana.dam.conectapp.service.CursoService;
 import com.salesianostriana.dam.conectapp.service.ProfesorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,14 +11,12 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/curso/")
@@ -59,19 +56,16 @@ public class CursoController {
     @Operation(summary = "Obtener todos los cursos", description = "Devuelve una lista con todos los cursos registrados en la base de datos")
     @ApiResponse(responseCode = "200", description = "Lista de cursos obtenida correctamente")
     @ApiResponse(responseCode = "404", description = "No se encontraron cursos en la base de datos")
-    public ResponseEntity<CursoResponseDto> listarCursos() {
-
-        return ResponseEntity.status(HttpStatus.OK).body(CursoResponseDto.fromDto(cursoService.findAllCursos()));
-
+    public List<CursoGetListaDto> getAllCursos() {
+        return cursoService.findAll();
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Obtener curso por ID", description = "Buscar un curso por su ID en la base de datos")
     @ApiResponse(responseCode = "200", description = "Curso encontrado")
     @ApiResponse(responseCode = "404", description = "Curso no encontrado")
-    public ResponseEntity<CursoDto> getCursoById(@PathVariable Long id) {
+    public CursoDto getCursoById(@PathVariable Long id) {
         Curso curso = cursoService.findById(id);
-        CursoDto cursoDto = CursoDto.of(curso);
-        return ResponseEntity.ok(cursoDto);
+        return CursoDto.of(curso);
     }
 }

@@ -13,9 +13,7 @@ public record CursoDto(
                 .build();
     }
 
-    public static CursoDto of(Curso curso){
-
-        return new CursoDto(curso.getNombre(),
-                curso.getHorasEmpresa());
+    public static CursoDto of(Curso curso) {
+        return new CursoDto(curso.getNombre(), curso.getHorasEmpresa());
     }
 }
