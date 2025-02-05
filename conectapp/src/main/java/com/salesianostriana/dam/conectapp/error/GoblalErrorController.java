@@ -16,4 +16,11 @@ public class GoblalErrorController extends ResponseEntityExceptionHandler {
         return result;
     }
 
+    @ExceptionHandler(FamiliaProfesionalNotFoundException.class)
+    public ProblemDetail handleFamiliaProfesionalNotFound(FamiliaProfesionalNotFoundException ex){
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        result.setTitle("Familia profesional no encontrada");
+        return result;
+    }
+
 }

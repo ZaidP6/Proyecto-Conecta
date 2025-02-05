@@ -15,37 +15,20 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 @ToString
-public class Empresa {
+public class FamiliaProfesional {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cif;
-    private String direccion;
-    private String coordenadas;
     private String nombre;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "empresa_familia_profesional",
-        joinColumns = @JoinColumn(name = "empresa_id"),
-        inverseJoinColumns = @JoinColumn(name = "familia_profesional_id"),
-        foreignKey = @ForeignKey(name = "fk_empresa_familia_profesional"),
-        inverseForeignKey = @ForeignKey(name = "fk_familia_profesional_empresa"))
+    @ManyToMany(mappedBy = "familiasProfesionales", fetch = FetchType.LAZY)
+    @Setter(AccessLevel.NONE)
     @Builder.Default
     @ToString.Exclude
-    private Set<FamiliaProfesional> familiasProfesionales = new HashSet<>();
+    private Set<Empresa> empresas = new HashSet<>();
 
-    //Helpers Empresa - FamiliaProfesional
-    public void addFamiliaProfesional(FamiliaProfesional fp){
-        this.familiasProfesionales.add(fp);
-        fp.getEmpresas().add(this);
-    }
-
-    public void removeFamiliaProfesional(FamiliaProfesional fp){
-        this.familiasProfesionales.remove(fp);
-        fp.getEmpresas().remove(this);
-    }
 
     @Override
     public final boolean equals(Object o) {
@@ -54,8 +37,8 @@ public class Empresa {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        Empresa empresa = (Empresa) o;
-        return getId() != null && Objects.equals(getId(), empresa.getId());
+        FamiliaProfesional that = (FamiliaProfesional) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override
