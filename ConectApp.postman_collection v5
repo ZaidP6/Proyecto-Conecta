@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "4c4c5947-0bdd-4b61-ad39-85c44e8a869a",
+		"_postman_id": "ea86ec2e-c640-4001-af41-09ac972a2068",
 		"name": "ConectApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38617634"
+		"_exporter_id": "38639647"
 	},
 	"item": [
 		{
@@ -476,7 +476,53 @@
 		},
 		{
 			"name": "Familia Profesional",
-			"item": []
+			"item": [
+				{
+					"name": "Añadir familia",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Familia Profesional 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/fp",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"fp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar familias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/fp",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"fp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Trabajador",

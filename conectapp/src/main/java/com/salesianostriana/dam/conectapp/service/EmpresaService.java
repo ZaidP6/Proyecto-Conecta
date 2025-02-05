@@ -65,4 +65,10 @@ public class EmpresaService {
         return familiasProfesionales;
     }
 
+    public Empresa addFamiliaProfesionalToEmpresa(Long id, FamiliaProfesional familiaProfesional){
+        Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa: " +id));
+        empresa.addFamiliaProfesional(familiaProfesional);
+        return empresa;
+    }
+
 }
