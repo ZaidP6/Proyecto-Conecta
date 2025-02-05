@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.conectapp.service;
 
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
+import com.salesianostriana.dam.conectapp.dto.GetEmpresaDto;
 import com.salesianostriana.dam.conectapp.error.EmpresaNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.repository.EmpresaRepository;
@@ -34,7 +35,7 @@ public class EmpresaService {
         return empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
     }
 
-    public Empresa edit(Long id, CreateEmpresaDto nuevosDatos){
+    public GetEmpresaDto edit(Long id, CreateEmpresaDto nuevosDatos){
         Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
         empresa.setCif(nuevosDatos.cif());
         empresa.setDireccion(nuevosDatos.direccion());
@@ -43,7 +44,7 @@ public class EmpresaService {
 
         empresaRepository.save(empresa);
 
-        return empresa;
+        return GetEmpresaDto.of(empresa);
     }
 
     public void delete(Long id){

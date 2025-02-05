@@ -3,6 +3,7 @@ package com.salesianostriana.dam.conectapp.dto;
 import com.salesianostriana.dam.conectapp.model.Empresa;
 
 public record CreateEmpresaDto(
+        Long id,
         String cif,
         String direccion,
         String coordenadas,
@@ -11,6 +12,7 @@ public record CreateEmpresaDto(
 
     public Empresa toEmpresa(){
         return Empresa.builder()
+                .id(id)
                 .cif(cif)
                 .direccion(direccion)
                 .coordenadas(coordenadas)
