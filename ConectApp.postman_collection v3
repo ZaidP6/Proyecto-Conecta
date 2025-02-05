@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "af6ffc53-889d-4523-9cee-4247b938e944",
+		"_postman_id": "b4908309-2c35-4d9c-973a-c747d7d3f6b6",
 		"name": "ConectApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38617634"
+		"_exporter_id": "38639647"
 	},
 	"item": [
 		{
@@ -175,6 +175,82 @@
 							"path": [
 								"empresa",
 								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar empresa",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cif\": \"B12345678\",\r\n    \"direccion\": \"Calle María Zambrano 19\",\r\n    \"coordenadas\": \"0.7894 8.2563\",\r\n    \"nombre\": \"Empresa 2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/empresa/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"empresa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Eliminar empresa",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/empresa/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"empresa",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver familias de una empresa",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/empresa/1/familiasprof",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"empresa",
+								"1",
+								"familiasprof"
 							]
 						}
 					},
@@ -369,6 +445,10 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Familia Profesional",
+			"item": []
 		}
 	]
 }
