@@ -1,8 +1,11 @@
 package com.salesianostriana.dam.conectapp.service;
 
+import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.CursoDto;
 import com.salesianostriana.dam.conectapp.dto.CursoGetListaDto;
+import com.salesianostriana.dam.conectapp.error.EmpresaNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Curso;
+import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.repository.CursoRespository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +53,16 @@ public class CursoService {
     public void deleteById(Long id){
         cursoRepository.deleteById(id);
     }
+
+    //EDITAR CURSODTO
+    public CursoDto edit(Long id, CursoDto cursoDto){
+        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ningun curso con id: " +id));
+            curso.setNombre(cursoDto.nombre());
+            curso.setHorasEmpresa(cursoDto.horasEmpresa());
+
+        cursoRepository.save(curso);
+        return CursoDto.of(curso);
+    }
+    
 
 }
