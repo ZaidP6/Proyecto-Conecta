@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.conectapp.controller;
 
 import com.salesianostriana.dam.conectapp.dto.CreateUsuarioDto;
+import com.salesianostriana.dam.conectapp.dto.TrabajadorDto;
 import com.salesianostriana.dam.conectapp.model.Trabajador;
 import com.salesianostriana.dam.conectapp.service.TrabajadorService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -69,5 +71,15 @@ public class TrabajadorController {
     public ResponseEntity<Trabajador> buscarPorId(@PathVariable Long id) {
         Trabajador trabajador = trabajadorService.findById(id);
         return ResponseEntity.ok(trabajador);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Editar un trabajador por ID", description = "Edita un trabajador existente en la base de datos")
+    @ApiResponse(responseCode = "200", description = "Trabajador editado correctamente")
+    @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
+    public ResponseEntity<Trabajador> editarTrabajador(
+            @PathVariable Long id, @Valid @RequestBody TrabajadorDto trabajadorDto) {
+        Trabajador updatedTrabajador = trabajadorService.editTrabajadorById(trabajadorDto, id);
+        return ResponseEntity.ok(updatedTrabajador);
     }
 }
