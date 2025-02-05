@@ -1,11 +1,14 @@
 package com.salesianostriana.dam.conectapp.controller;
 
+import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.CursoDto;
 import com.salesianostriana.dam.conectapp.dto.CursoGetListaDto;
 import com.salesianostriana.dam.conectapp.model.Curso;
+import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.service.CursoService;
 import com.salesianostriana.dam.conectapp.service.ProfesorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -69,6 +72,23 @@ public class CursoController {
         Curso curso = cursoService.findById(id);
         return CursoDto.of(curso);
     }
+
+
+    @Operation(summary = "Editar un curso")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado el curso y se ha editado con éxito",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = Curso.class))
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "NO se ha encontrado el curso")
+    })
+    @PutMapping("/{id}")
+    public CursoDto edit(@PathVariable Long id, @RequestBody CursoDto cursoModificado){
+        return cursoService.edit(id, cursoModificado);
+    }
+
 
     @Operation(summary = "Elimina un curso")
     @ApiResponses(value = {
