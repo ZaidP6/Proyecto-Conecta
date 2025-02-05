@@ -23,31 +23,6 @@ public class UsuarioService {
 
 
     //AÑADIR
-    /*
-    public Usuario addNew(CreateUsuarioDto createUsuarioDto) {
-        Profesor profesor = Profesor.builder()
-                .nombre(createUsuarioDto.nombreProfesor())
-                .apellidos(createUsuarioDto.apellidosProfesor())
-                .email(createUsuarioDto.emailProfesor())
-                .telefono(createUsuarioDto.telefonoProfesor())
-                .build();
-
-        profesor = profesorRepository.save(profesor);
-
-        Usuario usuario = Usuario.builder()
-                .userName(createUsuarioDto.userName())
-                .password(createUsuarioDto.password())
-                .role(Rol.USER)
-                .profesor(profesor)
-                .build();
-
-        Usuario usuarioGuardado = usuarioRepository.save(usuario);
-        System.out.println("Usuario guardado: " + usuarioGuardado);
-        return usuarioGuardado;
-
-    }
-     */
-
     @Transactional
     public Usuario addNew(CreateUsuarioDto createUsuarioDto) {
         Profesor profesor = profesorRepository.findByEmail(createUsuarioDto.emailProfesor())
@@ -99,6 +74,23 @@ public class UsuarioService {
 
     public Usuario findById(Long id) {
         return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNotFoundException("No se ha encontrado ningún usuario con id: "+id));
+    }
+
+    @Transactional
+    public Usuario editUserById(CreateUsuarioDto usuarioDto, Long id) {
+        return usuarioRepository.findById(id).map(uOld -> {
+            uOld.setUserName(usuarioDto.userName());
+            uOld.setPassword(usuarioDto.password());
+
+            Profesor profesor = uOld.getProfesor();
+            profesor.setNombre(usuarioDto.nombreProfesor());
+            profesor.setApellidos(usuarioDto.apellidosProfesor());
+            profesor.setEmail(usuarioDto.emailProfesor());
+            profesor.setTelefono(usuarioDto.telefonoProfesor());
+
+            profesorRepository.save(profesor);
+            return usuarioRepository.save(uOld);
+        }).orElseThrow(() -> new UsuarioNotFoundException("Usuario con ID:" + id + " no encontrado"));
     }
 
 }

@@ -35,21 +35,18 @@ public class ProfesorService {
 
     //EDITAR PROFE BUSCANDO POR ID
     @Transactional
-    public Profesor editById(Profesor p, Long id){
-        return profesorRepository.findById(id).map(
-                pOld -> {
-                    pOld.setNombre(p.getNombre());
-                    pOld.setApellidos(p.getApellidos());
-                    pOld.setEmail(p.getEmail());
-                    pOld.setTelefono(p.getTelefono());
+    public Profesor editById(Profesor p, Long id) {
+        return profesorRepository.findById(id).map(pOld -> {
+            pOld.setNombre(p.getNombre());
+            pOld.setApellidos(p.getApellidos());
+            pOld.setEmail(p.getEmail());
+            pOld.setTelefono(p.getTelefono());
 
-                    if (p.getUsuario() != null && p.getUsuario().getId() != null) {
-                        usuarioRepository.findById(p.getUsuario().getId()).ifPresent(pOld::setUsuario);
-                    }
-                    return  profesorRepository.save(pOld);
-
-                }
-        ).orElseThrow(() -> new ProfesorNotFoundException("Profesor con ID:"+id+" no encontrado"));
+            if (p.getUsuario() != null && p.getUsuario().getId() != null) {
+                usuarioRepository.findById(p.getUsuario().getId()).ifPresent(pOld::setUsuario);
+            }
+            return profesorRepository.save(pOld);
+        }).orElseThrow(() -> new ProfesorNotFoundException("Profesor con ID:" + id + " no encontrado"));
     }
 
     //ELIMINAR PROFE POR ID
