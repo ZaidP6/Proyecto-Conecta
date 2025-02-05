@@ -23,4 +23,25 @@ public class GoblalErrorController extends ResponseEntityExceptionHandler {
         return result;
     }
 
+    @ExceptionHandler(UsuarioNotFoundException.class)
+    public ProblemDetail handleUsuarioNotFound(UsuarioNotFoundException ex){
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        result.setTitle("Usuario no encontrado");
+        return result;
+    }
+
+    @ExceptionHandler(ProfesorNotFoundException.class)
+    public ProblemDetail handleProfesorNotFound(ProfesorNotFoundException ex){
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        result.setTitle("Profesor no encontrado");
+        return result;
+    }
+
+    @ExceptionHandler(CursoNotFoundException.class)
+    public ProblemDetail handleCursoNotFound(CursoNotFoundException ex){
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        result.setTitle("Curso no encontrado");
+        return result;
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.conectapp.service;
 
 import com.salesianostriana.dam.conectapp.dto.CreateUsuarioDto;
+import com.salesianostriana.dam.conectapp.error.UsuarioNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Profesor;
 import com.salesianostriana.dam.conectapp.model.Rol;
 import com.salesianostriana.dam.conectapp.model.Usuario;
@@ -91,13 +92,13 @@ public class UsuarioService {
     public List<Usuario> findAll() {
         List<Usuario> result = usuarioRepository.findAll();
         if (result.isEmpty()) {
-            throw new EntityNotFoundException("Lista vacía");
+            throw new UsuarioNotFoundException("No se han encontrado usuarios");
         }
         return result;
     }
 
     public Usuario findById(Long id) {
-        return usuarioRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        return usuarioRepository.findById(id).orElseThrow(() -> new UsuarioNotFoundException("No se ha encontrado ningún usuario con id: "+id));
     }
 
 }

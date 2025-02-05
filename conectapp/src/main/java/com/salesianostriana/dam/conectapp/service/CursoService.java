@@ -3,6 +3,7 @@ package com.salesianostriana.dam.conectapp.service;
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.CursoDto;
 import com.salesianostriana.dam.conectapp.dto.CursoGetListaDto;
+import com.salesianostriana.dam.conectapp.error.CursoNotFoundException;
 import com.salesianostriana.dam.conectapp.error.EmpresaNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Curso;
 import com.salesianostriana.dam.conectapp.model.Empresa;
@@ -35,14 +36,14 @@ public class CursoService {
 
     //BUSCAR POR ID
     public Curso findById(Long id){
-        return this.cursoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Curso con ID: "+id+ " no encontrado."));
+        return this.cursoRepository.findById(id).orElseThrow(() -> new CursoNotFoundException("Curso con ID: "+id+ " no encontrado."));
     }
 
     //BUSCAR TODOS LOS CURSOS
     public List<CursoGetListaDto> findAll(){
         List<Curso> listaCursos = cursoRepository.findAll();
         if (listaCursos.isEmpty()) {
-            throw new EntityNotFoundException("Lista vacía");
+            throw new CursoNotFoundException("Lista vacía");
         }
         return listaCursos.stream()
                 .map(CursoGetListaDto::of)
@@ -56,7 +57,7 @@ public class CursoService {
 
     //EDITAR CURSODTO
     public CursoDto edit(Long id, CursoDto cursoDto){
-        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No se ha encontrado ningun curso con id: " +id));
+        Curso curso = cursoRepository.findById(id).orElseThrow(() -> new CursoNotFoundException("No se ha encontrado ningun curso con id: " +id));
             curso.setNombre(cursoDto.nombre());
             curso.setHorasEmpresa(cursoDto.horasEmpresa());
 

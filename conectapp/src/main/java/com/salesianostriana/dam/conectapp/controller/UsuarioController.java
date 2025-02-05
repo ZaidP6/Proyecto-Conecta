@@ -1,6 +1,7 @@
 package com.salesianostriana.dam.conectapp.controller;
 
 import com.salesianostriana.dam.conectapp.dto.CreateUsuarioDto;
+import com.salesianostriana.dam.conectapp.dto.GetUsuarioDto;
 import com.salesianostriana.dam.conectapp.model.Usuario;
 import com.salesianostriana.dam.conectapp.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,25 +62,16 @@ public class UsuarioController {
     @Operation(summary = "Obtener todos los usuarios", description = "Devuelve una lista de todos los usuarios registrados en la base de datos")
     @ApiResponse(responseCode = "200", description = "Lista de usuarios obtenida correctamente")
     @ApiResponse(responseCode = "404", description = "No se encontraron usuarios en la base de datos")
-    public ResponseEntity<List<Usuario>> listarUsuarios(){
-        List<Usuario> listaUsuarios = new ArrayList<>();
-        listaUsuarios = usuarioService.findAll();
-        if (listaUsuarios.isEmpty())
-            throw new EntityNotFoundException();
-
-        return ResponseEntity.status(200).body(listaUsuarios);
+    public List<GetUsuarioDto> listarUsuarios(){
+        return usuarioService.findAll().stream().map(GetUsuarioDto::of).toList();
     }
 
     @GetMapping("{id}")
     @Operation(summary = "Obtener un usuario por ID", description = "Buscar un usuario por su ID en la base de datos")
     @ApiResponse(responseCode = "200", description = "Usuario encontrado")
     @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
-    public ResponseEntity<Usuario> getUserById(@PathVariable Long id) {
-        Usuario user = usuarioService.findById(id);
-        if (user == null) {
-            throw new EntityNotFoundException("No se encontró el usuario con ID: " + id);
-        }
-        return ResponseEntity.ok(user);
+    public GetUsuarioDto getUserById(@PathVariable Long id) {
+        return GetUsuarioDto.of(usuarioService.findById(id));
     }
 
 
