@@ -6,6 +6,7 @@ import com.salesianostriana.dam.conectapp.model.Curso;
 import com.salesianostriana.dam.conectapp.repository.CursoRespository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +44,11 @@ public class CursoService {
         return listaCursos.stream()
                 .map(CursoGetListaDto::of)
                 .collect(Collectors.toList());
+    }
+
+    //ELIMINAR POR ID
+    public void deleteById(Long id){
+        cursoRepository.deleteById(id);
     }
 
 }
