@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "fac355ca-f7cd-4d59-a986-8ea663844835",
+		"_postman_id": "ea86ec2e-c640-4001-af41-09ac972a2068",
 		"name": "ConectApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38617634"
+		"_exporter_id": "38639647"
 	},
 	"item": [
 		{
@@ -283,56 +283,6 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "Asignar Trabajador a Empresa",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"trabajadorId\": 1,\r\n  \"empresaId\": 1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:9000/empresa/1/asignar-trabajador/1",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"empresa",
-								"1",
-								"asignar-trabajador",
-								"1"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Ver trabajadores de una empresa",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "localhost:9000/empresa/1/trabajadores",
-							"host": [
-								"localhost"
-							],
-							"port": "9000",
-							"path": [
-								"empresa",
-								"1",
-								"trabajadores"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
@@ -526,7 +476,53 @@
 		},
 		{
 			"name": "Familia Profesional",
-			"item": []
+			"item": [
+				{
+					"name": "Añadir familia",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Familia Profesional 1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/fp",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"fp"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar familias",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/fp",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"fp"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "Trabajador",

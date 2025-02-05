@@ -1,6 +1,5 @@
 package com.salesianostriana.dam.conectapp.controller;
 
-import com.salesianostriana.dam.conectapp.dto.AsignarTrabajadorDto;
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.GetEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.GetFamiliaProfesionalDto;
@@ -44,7 +43,7 @@ public class EmpresaController {
                             array = @ArraySchema(schema = @Schema(implementation = Empresa.class)),
                             examples = {@ExampleObject(
                                     value = """
-                                                {"id": 1, "cif": "A12345678",
+                                                {"cif": "A12345678",
                                                 "direccion": "Calle Condes de Bustillo 8",
                                                 "coordenadas": "0.1234 5.6789",
                                                 "nombre": "Empresa 1"}
@@ -173,6 +172,29 @@ public class EmpresaController {
     @GetMapping("/{id}/familiasprof")
     public Set<GetFamiliaProfesionalDto> listarFamiliasProfesionalesEmpresa(@PathVariable Long id){
         return empresaService.listarFamiliasProfesionalesByEmpresa(id).stream().map(GetFamiliaProfesionalDto::of).collect(Collectors.toSet());
+    }
+
+    @Operation(summary = "Añadir una familia profesional a una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la empresa y se ha añadido la familia profesional",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FamiliaProfesional.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                 {"cif": "A12345678",
+                                                "direccion": "Calle Condes de Bustillo 8",
+                                                "coordenadas": "0.1234 5.6789",
+                                                "nombre": "Empresa 1"}
+                                           """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "NO se ha encontrado la empresa o esta no tiene familias profesionales asociadas")
+    })
+    @PostMapping("/{id}/addfp")
+    public GetEmpresaDto addFp(@PathVariable Long id, @RequestBody FamiliaProfesional fp){
+        return GetEmpresaDto.of(empresaService.addFamiliaProfesionalToEmpresa(id, fp));
     }
 
     @Operation(summary = "Asignar un trabajador a una empresa")

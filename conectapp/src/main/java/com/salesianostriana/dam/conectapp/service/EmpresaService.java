@@ -76,7 +76,7 @@ public class EmpresaService {
         Trabajador trabajador = trabajadorRepository.findById(trabajadorId)
                 .orElseThrow(() -> new TrabajadorNotFoundException("Trabajador no encontrado: " + trabajadorId));
 
-        trabajador.setEmpresa(empresa);
+        //trabajador.setEmpresa(empresa);
         trabajadorRepository.save(trabajador);
         return empresa;
     }
@@ -85,6 +85,12 @@ public class EmpresaService {
         Empresa empresa = empresaRepository.findById(empresaId).orElseThrow(() ->
                 new EmpresaNotFoundException("Empresa no encontrada"));
         return new ArrayList<>(empresa.getTrabajadores());
+    }
+
+    public Empresa addFamiliaProfesionalToEmpresa(Long id, FamiliaProfesional familiaProfesional){
+        Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa: " +id));
+        empresa.addFamiliaProfesional(familiaProfesional);
+        return empresa;
     }
 
 }
