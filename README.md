@@ -46,3 +46,7 @@ Los diferentes endpoints necesarios para dar funcionalidad a las distintas panta
     ```
     ![{2807D09C-64E8-4C16-B127-61DD796D47B2}](https://github.com/user-attachments/assets/b3eee820-2f89-49f3-80c1-3603feb54c6a)
 
+  ## Ayudas Docker
+  ![{038CA8D9-33BD-4FE2-834A-473141D302B6}](https://github.com/user-attachments/assets/370a6697-876b-4874-a190-6b79c7f7a814)
+
+
