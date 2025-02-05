@@ -3,14 +3,18 @@ package com.salesianostriana.dam.conectapp.service;
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.GetEmpresaDto;
 import com.salesianostriana.dam.conectapp.error.EmpresaNotFoundException;
+import com.salesianostriana.dam.conectapp.error.FamiliaProfesionalNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Empresa;
+import com.salesianostriana.dam.conectapp.model.FamiliaProfesional;
 import com.salesianostriana.dam.conectapp.repository.EmpresaRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -49,6 +53,16 @@ public class EmpresaService {
 
     public void delete(Long id){
         empresaRepository.deleteById(id);
+    }
+
+    @Transactional
+    public Set<FamiliaProfesional> listarFamiliasProfesionalesByEmpresa(Long id){
+        Empresa empresa = empresaRepository.findById(id).orElseThrow(() -> new EmpresaNotFoundException("No se ha encontrado ninguna empresa con id: " +id));
+        Set<FamiliaProfesional> familiasProfesionales = empresa.getFamiliasProfesionales();
+        if(familiasProfesionales.isEmpty()){
+            throw new FamiliaProfesionalNotFoundException("No hay familias profesionales asociadas a esta empresa");
+        }
+        return familiasProfesionales;
     }
 
 }
