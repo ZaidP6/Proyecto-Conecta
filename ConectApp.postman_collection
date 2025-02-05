@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "b4908309-2c35-4d9c-973a-c747d7d3f6b6",
+		"_postman_id": "fac355ca-f7cd-4d59-a986-8ea663844835",
 		"name": "ConectApp",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "38639647"
+		"_exporter_id": "38617634"
 	},
 	"item": [
 		{
@@ -85,6 +85,34 @@
 							"path": [
 								"usuario",
 								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Usuario id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"Zaid\",\r\n  \"password\": \"1234\",\r\n  \"nombreProfesor\": \"Zaid\",\r\n  \"apellidosProfesor\": \"Aguilar\",\r\n  \"emailProfesor\": \"zaid@example.com\",\r\n  \"telefonoProfesor\": \"639212569\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/usuario/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"usuario",
+								"1"
 							]
 						}
 					},
@@ -251,6 +279,56 @@
 								"empresa",
 								"1",
 								"familiasprof"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Asignar Trabajador a Empresa",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"trabajadorId\": 1,\r\n  \"empresaId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/empresa/1/asignar-trabajador/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"empresa",
+								"1",
+								"asignar-trabajador",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver trabajadores de una empresa",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/empresa/1/trabajadores",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"empresa",
+								"1",
+								"trabajadores"
 							]
 						}
 					},
@@ -449,6 +527,105 @@
 		{
 			"name": "Familia Profesional",
 			"item": []
+		},
+		{
+			"name": "Trabajador",
+			"item": [
+				{
+					"name": "Añadir Trabajador",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"Jose\",\r\n    \"apellidos\":\"Jimenez\",\r\n    \"email\":\"josejimenez@gmail.com\",\r\n    \"telefono\":\"635400244\",\r\n    \"area\":\"IT\", \r\n    \"puesto\":\"subjefe\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/trabajador/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"trabajador",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Trabajador id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/trabajador/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"trabajador",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Trabajador id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\":\"Maria\",\r\n    \"apellidos\":\"Gonzalez\",\r\n    \"email\":\"mariagonzalez@gmail.com\",\r\n    \"telefono\":\"635160244\",\r\n    \"area\":\"teleco\", \r\n    \"puesto\":\"empresario\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9000/trabajador/1",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"trabajador",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ver Trabajadores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9000/trabajador/",
+							"host": [
+								"localhost"
+							],
+							"port": "9000",
+							"path": [
+								"trabajador",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
