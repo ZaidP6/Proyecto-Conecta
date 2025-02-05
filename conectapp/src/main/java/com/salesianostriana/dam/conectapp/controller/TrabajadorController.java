@@ -12,10 +12,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/trabajador/")
@@ -53,5 +52,22 @@ public class TrabajadorController {
         Trabajador trabajador = trabajadorService.addNew(nuevo);
         return ResponseEntity.status(HttpStatus.CREATED).body(trabajador);
 
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "Obtener todos los trabajadores", description = "Devuelve una lista con todos los trabajadores registrados en la base de datos")
+    @ApiResponse(responseCode = "200", description = "Lista de trabajadores obtenida correctamente")
+    @ApiResponse(responseCode = "404", description = "No se encontraron trabajadores en la base de datos")
+    public List<Trabajador> findAll() {
+        return trabajadorService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar un trabajador por ID", description = "Busca un trabajador en la base de datos por su ID")
+    @ApiResponse(responseCode = "200", description = "Trabajador encontrado")
+    @ApiResponse(responseCode = "404", description = "Trabajador no encontrado")
+    public ResponseEntity<Trabajador> buscarPorId(@PathVariable Long id) {
+        Trabajador trabajador = trabajadorService.findById(id);
+        return ResponseEntity.ok(trabajador);
     }
 }

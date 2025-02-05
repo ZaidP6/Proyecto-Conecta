@@ -23,6 +23,13 @@ public class GoblalErrorController extends ResponseEntityExceptionHandler {
         return result;
     }
 
+    @ExceptionHandler(TrabajadorNotFoundException.class)
+    public ProblemDetail handleTrabajadorNotFound(TrabajadorNotFoundException ex) {
+        ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        result.setTitle("Trabajador no encontrado");
+        return result;
+    }
+
     @ExceptionHandler(UsuarioNotFoundException.class)
     public ProblemDetail handleUsuarioNotFound(UsuarioNotFoundException ex){
         ProblemDetail result = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
