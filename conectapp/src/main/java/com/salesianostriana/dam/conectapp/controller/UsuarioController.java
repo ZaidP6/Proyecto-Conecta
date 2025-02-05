@@ -74,5 +74,12 @@ public class UsuarioController {
         return GetUsuarioDto.of(usuarioService.findById(id));
     }
 
-
+    @PutMapping("/{id}")
+    @Operation(summary = "Editar un usuario por ID", description = "Edita un usuario existente en la base de datos")
+    @ApiResponse(responseCode = "200", description = "Usuario editado correctamente")
+    @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
+    public ResponseEntity<Usuario> editarUsuario(@PathVariable Long id, @Valid @RequestBody CreateUsuarioDto usuarioDto) {
+        Usuario updatedUsuario = usuarioService.editUserById(usuarioDto, id);
+        return ResponseEntity.ok(updatedUsuario);
+    }
 }
