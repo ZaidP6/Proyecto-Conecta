@@ -1,10 +1,12 @@
 package com.salesianostriana.dam.conectapp.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -25,6 +27,12 @@ public class Empresa {
     private String direccion;
     private String coordenadas;
     private String nombre;
+
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<Trabajador> trabajadores = new HashSet<>();
+
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "empresa_familia_profesional",

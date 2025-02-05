@@ -1,12 +1,15 @@
 package com.salesianostriana.dam.conectapp.model;
 
-import jakarta.persistence.Entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 
 @Entity
@@ -20,8 +23,10 @@ public class Trabajador extends Persona{
      private String puesto;
      private String area;
 
-
-
+     @ManyToOne(fetch = FetchType.LAZY)
+     @JoinColumn(name = "empresa_id")
+     @JsonBackReference
+     private Empresa empresa;
 
 
 
