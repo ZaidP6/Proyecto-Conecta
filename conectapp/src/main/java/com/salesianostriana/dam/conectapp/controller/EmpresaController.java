@@ -1,7 +1,10 @@
 package com.salesianostriana.dam.conectapp.controller;
 
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
+import com.salesianostriana.dam.conectapp.dto.GetEmpresaDto;
+import com.salesianostriana.dam.conectapp.dto.GetFamiliaProfesionalDto;
 import com.salesianostriana.dam.conectapp.model.Empresa;
+import com.salesianostriana.dam.conectapp.model.FamiliaProfesional;
 import com.salesianostriana.dam.conectapp.service.EmpresaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,6 +23,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -77,8 +82,8 @@ public class EmpresaController {
                     description = "NO se han encontrado empresas")
     })
     @GetMapping
-    public List<Empresa> findAll(){
-        return empresaService.findAll();
+    public List<GetEmpresaDto> findAll(){
+        return empresaService.findAll().stream().map(GetEmpresaDto::of).toList();
     }
 
     @Operation(summary = "Buscar una empresa")
@@ -100,8 +105,8 @@ public class EmpresaController {
                     description = "NO se ha encontrado la empresa")
     })
     @GetMapping("/{id}")
-    public Empresa findById(@PathVariable Long id){
-        return empresaService.findById(id);
+    public GetEmpresaDto findById(@PathVariable Long id){
+        return GetEmpresaDto.of(empresaService.findById(id));
 
     }
 
@@ -124,7 +129,7 @@ public class EmpresaController {
                     description = "NO se ha encontrado la empresa")
     })
     @PutMapping("/{id}")
-    public Empresa edit(@PathVariable Long id, @RequestBody CreateEmpresaDto nuevosDatos){
+    public GetEmpresaDto edit(@PathVariable Long id, @RequestBody CreateEmpresaDto nuevosDatos){
         return empresaService.edit(id, nuevosDatos);
     }
 
@@ -137,6 +142,35 @@ public class EmpresaController {
     public ResponseEntity<?> delete(@PathVariable Long id){
         empresaService.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @Operation(summary = "Listar familias profesionales relacionadas a una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200",
+                    description = "Se ha encontrado la empresa y se han listado las familias profesionales",
+                    content = { @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = FamiliaProfesional.class)),
+                            examples = {@ExampleObject(
+                                    value = """
+                                                [
+                                                    {
+                                                        "id": 1,
+                                                        "nombre": "Familia Profesional 1"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "nombre": "Familia Profesional 2"
+                                                    }
+                                                ]
+                                           """
+                            )}
+                    )}),
+            @ApiResponse(responseCode = "404",
+                    description = "NO se ha encontrado la empresa o esta no tiene familias profesionales asociadas")
+    })
+    @GetMapping("/{id}/familiasprof")
+    public Set<GetFamiliaProfesionalDto> listarFamiliasProfesionalesEmpresa(@PathVariable Long id){
+        return empresaService.listarFamiliasProfesionalesByEmpresa(id).stream().map(GetFamiliaProfesionalDto::of).collect(Collectors.toSet());
     }
 
 }
