@@ -23,6 +23,7 @@ public class TrabajadorService {
 
         Trabajador nuevo = Trabajador.builder()
                 .nombre(trabajador.getNombre())
+                .apellidos(trabajador.getApellidos())
                 .email(trabajador.getEmail())
                 .telefono(trabajador.getTelefono())
                 .area(trabajador.getArea())
