@@ -4,14 +4,18 @@ import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.GetEmpresaDto;
 import com.salesianostriana.dam.conectapp.error.EmpresaNotFoundException;
 import com.salesianostriana.dam.conectapp.error.FamiliaProfesionalNotFoundException;
+import com.salesianostriana.dam.conectapp.error.TrabajadorNotFoundException;
 import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.model.FamiliaProfesional;
+import com.salesianostriana.dam.conectapp.model.Trabajador;
 import com.salesianostriana.dam.conectapp.repository.EmpresaRepository;
+import com.salesianostriana.dam.conectapp.repository.TrabajadorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +25,7 @@ import java.util.Set;
 public class EmpresaService {
 
     private final EmpresaRepository empresaRepository;
+    private final TrabajadorRepository trabajadorRepository;
 
     public Empresa save(CreateEmpresaDto createEmpresaDto){
         empresaRepository.save(createEmpresaDto.toEmpresa());
@@ -63,6 +68,23 @@ public class EmpresaService {
             throw new FamiliaProfesionalNotFoundException("No hay familias profesionales asociadas a esta empresa");
         }
         return familiasProfesionales;
+    }
+
+    public Empresa asignarTrabajador(Long empresaId, Long trabajadorId) {
+        Empresa empresa = empresaRepository.findById(empresaId)
+                .orElseThrow(() -> new EmpresaNotFoundException("Empresa no encontrada: " + empresaId));
+        Trabajador trabajador = trabajadorRepository.findById(trabajadorId)
+                .orElseThrow(() -> new TrabajadorNotFoundException("Trabajador no encontrado: " + trabajadorId));
+
+        trabajador.setEmpresa(empresa);
+        trabajadorRepository.save(trabajador);
+        return empresa;
+    }
+
+    public List<Trabajador> obtenerTrabajadores(Long empresaId) {
+        Empresa empresa = empresaRepository.findById(empresaId).orElseThrow(() ->
+                new EmpresaNotFoundException("Empresa no encontrada"));
+        return new ArrayList<>(empresa.getTrabajadores());
     }
 
 }

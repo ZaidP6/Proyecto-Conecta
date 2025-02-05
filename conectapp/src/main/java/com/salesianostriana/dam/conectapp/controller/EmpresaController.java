@@ -1,10 +1,12 @@
 package com.salesianostriana.dam.conectapp.controller;
 
+import com.salesianostriana.dam.conectapp.dto.AsignarTrabajadorDto;
 import com.salesianostriana.dam.conectapp.dto.CreateEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.GetEmpresaDto;
 import com.salesianostriana.dam.conectapp.dto.GetFamiliaProfesionalDto;
 import com.salesianostriana.dam.conectapp.model.Empresa;
 import com.salesianostriana.dam.conectapp.model.FamiliaProfesional;
+import com.salesianostriana.dam.conectapp.model.Trabajador;
 import com.salesianostriana.dam.conectapp.service.EmpresaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -171,6 +173,31 @@ public class EmpresaController {
     @GetMapping("/{id}/familiasprof")
     public Set<GetFamiliaProfesionalDto> listarFamiliasProfesionalesEmpresa(@PathVariable Long id){
         return empresaService.listarFamiliasProfesionalesByEmpresa(id).stream().map(GetFamiliaProfesionalDto::of).collect(Collectors.toSet());
+    }
+
+    @Operation(summary = "Asignar un trabajador a una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajador asignado a la empresa con éxito", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Empresa.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Empresa o Trabajador no encontrados")
+    })
+    @PostMapping("/{empresaId}/asignar-trabajador/{trabajadorId}")
+    public ResponseEntity<Empresa> asignarTrabajador(@PathVariable Long empresaId, @PathVariable Long trabajadorId) {
+        Empresa empresa = empresaService.asignarTrabajador(empresaId, trabajadorId);
+        return ResponseEntity.status(HttpStatus.OK).body(empresa);
+    }
+
+    @Operation(summary = "Obtener trabajadores de una empresa")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajadores obtenidos con éxito", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Empresa no encontrada")
+    })
+    @GetMapping("/{empresaId}/trabajadores")
+    public List<Trabajador> obtenerTrabajadores(@PathVariable Long empresaId) {
+        return empresaService.obtenerTrabajadores(empresaId);
     }
 
 }
