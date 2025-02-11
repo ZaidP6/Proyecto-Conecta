@@ -20,6 +20,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.httpBasic(Customizer.withDefaults());
         http.authorizeHttpRequests((auth) -> auth
+                .requestMatchers(HttpMethod.GET, "/usuario/").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/usuario/{id}").hasRole("USER")
+                .requestMatchers(HttpMethod.PUT, "/usuario/{id}").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/profesor/").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/profesor/{id}").hasRole("USER")
                 .requestMatchers(HttpMethod.POST,"/usuario/").hasRole("ADMIN")
                 .anyRequest().authenticated()
         );
@@ -28,7 +33,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(){
-        UserDetails user = User.withUsername("admin")
+        UserDetails user = User.withUsername("user")
                 .password("{noop}1234")
                 .roles("USER")
                 .build();
