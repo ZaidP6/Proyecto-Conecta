@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -35,6 +36,8 @@ public class Usuario {
     @JoinColumn(name = "profesor_id", unique = true)
     private Profesor profesor;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Trabajador>trabajadores;
 
     @Override
     public final boolean equals(Object o) {
