@@ -20,6 +20,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.httpBasic(Customizer.withDefaults());
         http.authorizeHttpRequests((auth) -> auth
+                .requestMatchers(HttpMethod.POST,"/auth/register").permitAll()
+                .requestMatchers(HttpMethod.POST,"/auth/login").permitAll()
                 .requestMatchers(HttpMethod.GET, "/usuario/").hasRole("USER")
                 .requestMatchers(HttpMethod.GET, "/usuario/{id}").hasRole("USER")
                 .requestMatchers(HttpMethod.PUT, "/usuario/{id}").hasRole("USER")
